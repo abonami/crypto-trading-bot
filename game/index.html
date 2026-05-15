@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Horror Game - Roblox × Resident Evil</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 100%;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      background: #000;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #ui {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .hud {
+      position: absolute;
+      color: #0f0;
+      font-size: 14px;
+      text-shadow: 0 0 10px #0f0;
+      font-weight: bold;
+    }
+
+    #health {
+      top: 20px;
+      left: 20px;
+    }
+
+    #stage {
+      top: 20px;
+      right: 20px;
+    }
+
+    #enemies-left {
+      bottom: 20px;
+      left: 20px;
+    }
+
+    .health-bar {
+      width: 150px;
+      height: 20px;
+      border: 2px solid #0f0;
+      margin-top: 5px;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .health-fill {
+      height: 100%;
+      background: #0f0;
+      width: 100%;
+      transition: width 0.2s;
+    }
+
+    .menu {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 40px;
+      border: 2px solid #f00;
+      border-radius: 10px;
+      display: none;
+      z-index: 200;
+      pointer-events: all;
+    }
+
+    .menu h1 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #f00;
+      text-shadow: 0 0 20px #f00;
+    }
+
+    .menu p {
+      font-size: 16px;
+      margin: 10px 0;
+      color: #0f0;
+    }
+
+    .menu button {
+      background: #f00;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      margin-top: 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s;
+      pointer-events: all;
+    }
+
+    .menu button:hover {
+      background: #ff0000;
+      box-shadow: 0 0 20px #f00;
+    }
+
+    .stage-info {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      font-size: 24px;
+      display: none;
+      z-index: 150;
+    }
+
+    .stage-info h2 {
+      color: #f00;
+      text-shadow: 0 0 20px #f00;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      color: #0f0;
+      font-size: 12px;
+      text-shadow: 0 0 10px #0f0;
+    }
+  </style>
+</head>
+<body>
+  <div id="ui">
+    <div id="health" class="hud">
+      <div>الصحة / Health</div>
+      <div class="health-bar">
+        <div class="health-fill" id="health-fill"></div>
+      </div>
+    </div>
+
+    <div id="stage" class="hud">
+      <div>المرحلة <span id="stage-num">1</span> / 5</div>
+      <div>العدو <span id="enemy-num">1</span> / 4</div>
+    </div>
+
+    <div id="enemies-left" class="hud">
+      <div>الأعداء المتبقين: <span id="remaining">4</span></div>
+    </div>
+
+    <div id="main-menu" class="menu">
+      <h1>لعبة الرعب</h1>
+      <p>Horror Game: Roblox × Resident Evil</p>
+      <p style="margin-top: 30px; font-size: 14px;">استكشف واقتتل مع 4 أعداء في كل مرحلة</p>
+      <button onclick="game.startGame()">ابدأ اللعبة</button>
+    </div>
+
+    <div id="stage-transition" class="stage-info">
+      <h2 id="transition-text">المرحلة 1</h2>
+      <p>استعد للقتال...</p>
+    </div>
+
+    <div id="game-over" class="menu">
+      <h1>انتهت اللعبة</h1>
+      <p id="end-message">لقد خسرت!</p>
+      <button onclick="game.restart()">إعادة</button>
+    </div>
+
+    <div class="controls">
+      <div>WASD - الحركة</div>
+      <div>SPACE - القفز</div>
+      <div>Mouse - النظر</div>
+      <div>Click - الهجوم</div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
